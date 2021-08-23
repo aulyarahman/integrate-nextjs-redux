@@ -1,23 +1,9 @@
 import { HYDRATE } from "next-redux-wrapper";
-import { AnyAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface UserProps {
-  id: number;
-  name: string;
-  address: string;
-}
-
-const dataUsers: UserProps[] = [
-  {
-    id: 0,
-    name: "",
-    address: "",
-  },
-];
+import { createSlice } from "@reduxjs/toolkit";
 
 export const userSlice = createSlice({
   name: "users",
-  initialState: dataUsers,
+  initialState: [],
   reducers: {
     setUsers(_state, { payload }) {
       return payload;

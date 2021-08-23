@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector, useStore, useDispatch } from "react-redux";
-import { AppThunk, wrapper } from "store";
 import { setUsers } from "store/reducers/userReducers";
 import { AppState } from "store";
 
@@ -21,7 +20,7 @@ const PageIndex = () => {
       },
     ];
 
-    dispatch(setUsers(dd));
+    dispatch(setUsers([...dd]));
   };
 
   const content = useSelector((state: AppState) => state.users);
