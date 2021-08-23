@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useStore } from "react-redux";
 import Link from "next/link";
-import { fetchSubject, selectSubject, wrapper } from "../../../store";
+import { fetchSubject, selectSubject, wrapper } from "store";
 
 const Page = (props) => {
   console.log("State on render", useStore().getState(), { props });
