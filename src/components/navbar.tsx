@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "store";
-import { setUsers } from "store/reducers/userReducers";
+import { deleteUser, setUsers } from "store/reducers/userReducers";
 
 const Navbar: React.FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -15,11 +15,15 @@ const Navbar: React.FunctionComponent = () => {
 
     dispatch(setUsers([...users, data]));
   };
+
+  const deleteData = () => {
+    dispatch(deleteUser(1));
+  };
   return (
     <nav>
       <ul>
         <li onClick={clickHome}>Home</li>
-        <li>Action</li>
+        <li onClick={deleteData}>Action</li>
       </ul>
     </nav>
   );

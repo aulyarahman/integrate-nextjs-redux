@@ -8,9 +8,9 @@ export const userSlice = createSlice({
     setUsers(_state, { payload }) {
       return payload;
     },
-    // deleteUser: (state, action: AnyAction) => {
-    //   state.users = state.users.filter((c) => c.id !== action.payload);
-    // },
+    deleteUser(state, action) {
+      return state.filter((c) => c.id !== action.payload);
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {
@@ -23,6 +23,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUsers } = userSlice.actions;
+export const { setUsers, deleteUser } = userSlice.actions;
 
 export default userSlice.reducer;
