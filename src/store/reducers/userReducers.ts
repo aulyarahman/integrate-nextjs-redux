@@ -1,23 +1,29 @@
 import { HYDRATE } from "next-redux-wrapper";
-import { createSlice } from "@reduxjs/toolkit";
+import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface UserProps {
+  id: number;
+  name: string;
+  address: string;
+}
 
 export const userSlice = createSlice({
   name: "users",
   initialState: [],
   reducers: {
-    setUsers(_state, { payload }) {
-      return payload;
+    setUsers(state: UserProps[], action: PayloadAction<UserProps[]>) {
+      return action.payload;
     },
-    deleteUser(state, action) {
+    deleteUser(state: UserProps[], action: PayloadAction<number>) {
       return state.filter((c) => c.id !== action.payload);
     },
   },
   extraReducers: {
-    [HYDRATE]: (state, action) => {
+    [HYDRATE]: (state: UserProps[], action: PayloadAction<UserProps[]>) => {
       console.log("USER HYDRATE", state, action.payload);
       return {
         ...state,
-        ...action.payload.users,
+        ...action.payload,
       };
     },
   },
