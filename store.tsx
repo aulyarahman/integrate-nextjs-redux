@@ -25,6 +25,8 @@ export const subjectSlice = createSlice({
 
 export const userSlice = createSlice(users);
 
+const { setEnt } = subjectSlice.actions;
+
 const makeStore = () =>
   configureStore({
     reducer: {
@@ -51,14 +53,7 @@ export const fetchSubject =
 
     await timeoutPromise(200);
 
-    dispatch(
-      subjectSlice.actions.setEnt({
-        [id]: {
-          id,
-          name: `Subject ${id}`,
-        },
-      })
-    );
+    dispatch(setEnt);
   };
 
 const dataUsers = [
