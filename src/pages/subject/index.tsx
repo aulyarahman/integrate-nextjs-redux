@@ -41,7 +41,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     async ({ params }) => {
       // const { id } = params;
 
-      store.dispatch(getUserList());
+      await store.dispatch(getUserList());
 
       console.log("State on server", store.getState());
 
