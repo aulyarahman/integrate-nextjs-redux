@@ -1,17 +1,35 @@
 import React from "react";
-import Link from "next/link";
+import { useSelector, useStore, useDispatch } from "react-redux";
+import { AppThunk, wrapper } from "store";
+import { setUsers } from "store/reducers/userReducers";
+import { AppState } from "store";
+import { UserProps } from "components/userSlice";
 
-export default function IndexPage() {
+const PageIndex = () => {
+  const dispatch = useDispatch();
+  console.log("State on render", useStore().getState());
+  const getUserList = async () => {
+    const dd = {
+      id: 1,
+      name: "Aulia",
+      address: "Rahman",
+    };
+
+    dispatch(setUsers(dd));
+  };
+
+  const content = useSelector((state: AppState) => state.users);
+
+  if (!content) {
+    return <div>RENDERED WITHOUT CONTENT FROM STORE!!!???</div>;
+  }
+
   return (
     <div>
-      <h3>Rendering without state</h3>
-      You can see &quot;Rendered content: undefined&quot; in browser console
-      after navigating between these pages:
-      <br />
-      <br />
-      <Link href="/subject/1">
-        <a>Go to problem pages</a>
-      </Link>
+      <h3>{JSON.stringify(content)}</h3> <br />
+      <button onClick={getUserList}>Update Data</button>
     </div>
   );
-}
+};
+
+export default PageIndex;
