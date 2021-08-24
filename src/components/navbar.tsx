@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "store";
 import { deleteUser, setUsers } from "store/reducers/userReducers";
+import { Box, Button } from "@chakra-ui/react";
 
 const Navbar: React.FunctionComponent = () => {
   const dispatch = useDispatch();
-  const users = useSelector((state: AppState) => state.users);
+  const users = useSelector((state: AppState) => state.users.users);
 
   const clickHome = () => {
     const data = {
@@ -16,22 +17,18 @@ const Navbar: React.FunctionComponent = () => {
     dispatch(setUsers([...users, data]));
   };
 
-  const deleteData = (num: number) => {
-    dispatch(deleteUser(users.filter((c) => c.id !== num)));
+  const deleteData = () => {
+    dispatch(deleteUser(1));
   };
   return (
-    <nav>
-      <ul>
-        <li onClick={clickHome}>Home</li>
-        <li
-          onClick={() => {
-            deleteData(1);
-          }}
-        >
-          Action
-        </li>
-      </ul>
-    </nav>
+    <Box as="nav" flexDirection="row">
+      <Button colorScheme="teal" variant="outline" onClick={clickHome}>
+        Tambah
+      </Button>
+      <Button colorScheme="teal" variant="outline" onClick={deleteData}>
+        Kurang
+      </Button>
+    </Box>
   );
 };
 

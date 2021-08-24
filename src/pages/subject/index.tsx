@@ -1,8 +1,14 @@
 import React from "react";
 import { useSelector, useStore } from "react-redux";
 import { AppThunk, wrapper } from "store";
-import { setUsers, UserProps } from "store/reducers/userReducers";
+import {
+  PayloadUserProps,
+  setUsers,
+  UserProps,
+} from "store/reducers/userReducers";
 import { AppState } from "store";
+import { Link, ListItem, UnorderedList } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 export const getUserList = (): AppThunk => async (dispatch) => {
   const timeoutPromise = (timeout: number) =>
@@ -29,17 +35,19 @@ export const getUserList = (): AppThunk => async (dispatch) => {
   dispatch(setUsers(data));
 };
 
+interface IUserProps {
+  users: UserProps[];
+}
+
 const PageIndex = () => {
-  // console.log("State on render", useStore().getState());
+  console.log("State on render", useStore().getState());
   // console[content ? "info" : "warn"]("Rendered content: ", content);
 
-  const content = useSelector((state: AppState) => state.users);
+  const content = useSelector((state: AppState) => state.users.users);
 
   if (!content) {
     return <div>RENDERED WITHOUT CONTENT FROM STORE!!!???</div>;
   }
-
-  console.log(content);
 
   return (
     <div>

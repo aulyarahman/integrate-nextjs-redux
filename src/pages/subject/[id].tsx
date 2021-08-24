@@ -1,28 +1,37 @@
 import React from "react";
 import { useSelector, useStore } from "react-redux";
 import Link from "next/link";
-import { fetchSubject, selectSubject, wrapper } from "store";
+import { AppState, AppThunk, wrapper } from "store";
+import { setUserId, setUsers, UserProps } from "store/reducers/userReducers";
+// import { fetchSubject, selectSubject, wrapper } from "store";
+
+const getUserById =
+  (user: UserProps): AppThunk =>
+  async (dispacth) => {
+    const timeoutPromise = (timeout: number) =>
+      new Promise((resolve) => setTimeout(resolve, timeout));
+
+    await timeoutPromise(200);
+
+    dispacth(setUserId(user));
+  };
 
 const Page = (props) => {
-  console.log("State on render", useStore().getState(), { props });
-  const content = useSelector(selectSubject(props.id));
+  // console.log("State on render", useStore().getState(), { props });
+  const content = useSelector((state: AppState) => state.users.userFind);
 
-  console[content ? "info" : "warn"]("Rendered content: ", content);
+  // console[content ? "info" : "warn"]("Rendered content: ", content);
 
-  if (!content) {
-    return <div>RENDERED WITHOUT CONTENT FROM STORE!!!???</div>;
-  }
+  // if (!content) {
+  //   return <div>RENDERED WITHOUT CONTENT FROM STORE!!!???</div>;
+  // }
+
+  // console.log("ID", content);
 
   return (
     <div>
-      <h3>{content.name}</h3>
-      <Link href="/subject/1">
-        <a>Subject id 1</a>
-      </Link>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <Link href="/subject/2">
-        <a>Subject id 2</a>
-      </Link>
+      {/* <h3>{content.name}</h3> */}
+      <p>{JSON.stringify(content)}</p>
     </div>
   );
 };
@@ -32,13 +41,19 @@ export const getServerSideProps = wrapper.getServerSideProps(
     async ({ params }) => {
       const { id } = params;
 
-      await store.dispatch(fetchSubject(id));
+      const find = {
+        id: 1,
+        name: "JJ",
+        address: "KK",
+      };
+
+      await store.dispatch(getUserById(find));
 
       console.log("State on server", store.getState());
 
       return {
         props: {
-          id,
+          data: find,
         },
       };
     }

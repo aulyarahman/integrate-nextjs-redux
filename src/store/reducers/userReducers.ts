@@ -1,5 +1,5 @@
 import { HYDRATE } from "next-redux-wrapper";
-import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserProps {
   id: number;
@@ -9,30 +9,56 @@ export interface UserProps {
 
 export interface PayloadUserProps {
   users: UserProps[];
+  userFind?: UserProps;
 }
+
+interface PayloadHydrate {
+  users: {
+    users: UserProps[];
+    userFind?: UserProps;
+  };
+}
+
+const stateInit: PayloadUserProps = {
+  users: [
+    {
+      name: "",
+      address: "",
+      id: 1,
+    },
+  ],
+  userFind: {
+    name: "",
+    address: "",
+    id: 1,
+  },
+};
 
 export const userSlice = createSlice({
   name: "users",
-  initialState: [] as UserProps[],
+  initialState: stateInit,
   reducers: {
-    setUsers(state: UserProps[], action: PayloadAction<UserProps[]>) {
-      return action.payload;
+    setUsers: (state: PayloadUserProps, action: PayloadAction<UserProps[]>) => {
+      state.users = action.payload;
     },
-    deleteUser(state: UserProps[], action: PayloadAction<UserProps[]>) {
-      // return state.filter((c) => c.id !== action.payload);
-      return action.payload;
+    setUserId: (state: PayloadUserProps, action: PayloadAction<UserProps>) => {
+      state.userFind = action.payload;
+    },
+    deleteUser(state: PayloadUserProps, action: PayloadAction<number>) {
+      state.users.filter((c) => c.id !== action.payload);
     },
   },
   extraReducers: {
     [HYDRATE]: (
-      state: UserProps[],
-      action: PayloadAction<PayloadUserProps>
+      state: PayloadUserProps,
+      action: PayloadAction<PayloadHydrate>
     ) => {
-      return (state = action.payload.users);
+      (state.users = action.payload.users.users),
+        (state.userFind = action.payload.users.userFind);
     },
   },
 });
 
-export const { setUsers, deleteUser } = userSlice.actions;
+export const { setUsers, deleteUser, setUserId } = userSlice.actions;
 
 export default userSlice.reducer;
