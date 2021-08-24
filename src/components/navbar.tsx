@@ -8,7 +8,7 @@ const Navbar: React.FunctionComponent = () => {
 
   const clickHome = () => {
     const data = {
-      id: 3,
+      id: 2,
       name: "Akbar",
       address: "Sudiang",
     };
@@ -16,14 +16,20 @@ const Navbar: React.FunctionComponent = () => {
     dispatch(setUsers([...users, data]));
   };
 
-  const deleteData = () => {
-    dispatch(deleteUser(1));
+  const deleteData = (num: number) => {
+    dispatch(deleteUser(users.filter((c) => c.id !== num)));
   };
   return (
     <nav>
       <ul>
         <li onClick={clickHome}>Home</li>
-        <li onClick={deleteData}>Action</li>
+        <li
+          onClick={() => {
+            deleteData(1);
+          }}
+        >
+          Action
+        </li>
       </ul>
     </nav>
   );

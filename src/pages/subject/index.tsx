@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useStore } from "react-redux";
-import { AppThunk, wrapper } from "../../store";
-import { setUsers } from "store/reducers/userReducers";
+import { AppThunk, wrapper } from "store";
+import { setUsers, UserProps } from "store/reducers/userReducers";
 import { AppState } from "store";
 
 export const getUserList = (): AppThunk => async (dispatch) => {
@@ -10,13 +10,23 @@ export const getUserList = (): AppThunk => async (dispatch) => {
 
   await timeoutPromise(200);
 
-  const dd = {
-    id: 1,
-    name: "Aulia",
-    address: "Rahman",
-  };
+  const dd = [
+    {
+      id: 1,
+      name: "Aulia",
+      address: "Rahman",
+    },
+    {
+      id: 2,
+      name: "Aulia",
+      address: "Rahman",
+    },
+  ];
 
-  dispatch(setUsers(dd));
+  const data: UserProps[] = [];
+  data.push(...dd);
+
+  dispatch(setUsers(data));
 };
 
 const PageIndex = () => {
@@ -29,9 +39,11 @@ const PageIndex = () => {
     return <div>RENDERED WITHOUT CONTENT FROM STORE!!!???</div>;
   }
 
+  console.log(content);
+
   return (
     <div>
-      <h3>{JSON.stringify(content)}</h3>{" "}
+      <p>{JSON.stringify(content)}</p>
     </div>
   );
 };
